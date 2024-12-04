@@ -32,10 +32,10 @@ We use datasets from multiple domains, including movies, e-commerce, restaurant 
 ---
 ## Installation and Setup
 1. **Clone the repository**
-   git clone https://github.com/marioG1025/CS-4375-Machine-Learning-Project.git
+   - `git clone https://github.com/marioG1025/CS-4375-Machine-Learning-Project.git `
 
 2. **Install required Python packages:**
-   pip install pandas numpy scikit-learn nltk matplotlib seaborn
+   - `pip install pandas numpy scikit-learn nltk matplotlib seaborn`
 
 
 ## Key Technologies and Tools
