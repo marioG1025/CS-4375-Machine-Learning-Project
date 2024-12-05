@@ -203,3 +203,47 @@ X_train_amazon, X_test_amazon, y_train_amazon, y_test_amazon = train_test_split(
     amazon_tfidf, amazon_labels, test_size=0.2, random_state=42
 )
 print(f"Amazon data split: {X_train_amazon.shape[0]} training rows, {X_test_amazon.shape[0]} testing rows.")
+
+
+
+#############
+############
+##MODEL TRAINING
+#################
+####################
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+
+# Train and Evaluate a Model
+def train_and_evaluate_model(X_train, X_test, y_train, y_test, dataset_name):
+    print(f"Training Logistic Regression model for {dataset_name}...")
+    model = LogisticRegression(max_iter=1000, random_state=42)
+    model.fit(X_train, y_train)
+
+    print("Evaluating model...")
+    y_pred = model.predict(X_test)
+
+    # Model Performance Metrics
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"{dataset_name} Accuracy: {accuracy:.4f}")
+
+    print(f"Classification Report for {dataset_name}:\n", classification_report(y_test, y_pred))
+    print(f"Confusion Matrix for {dataset_name}:\n", confusion_matrix(y_test, y_pred))
+
+    return model
+
+# Train and Evaluate on Steam Data
+print("Processing Steam data...")
+steam_model = train_and_evaluate_model(X_train_steam, X_test_steam, y_train_steam, y_test_steam, "Steam")
+
+# Train and Evaluate on Yelp Data
+print("Processing Yelp data...")
+yelp_model = train_and_evaluate_model(X_train_yelp, X_test_yelp, y_train_yelp, y_test_yelp, "Yelp")
+
+# Train and Evaluate on IMDb Data
+print("Processing IMDb data...")
+imdb_model = train_and_evaluate_model(X_train_imdb, X_test_imdb, y_train_imdb, y_test_imdb, "IMDb")
+
+# Train and Evaluate on Amazon Data
+print("Processing Amazon data...")
+amazon_model = train_and_evaluate_model(X_train_amazon, X_test_amazon, y_train_amazon, y_test_amazon, "Amazon")
