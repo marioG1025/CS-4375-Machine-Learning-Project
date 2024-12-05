@@ -108,4 +108,6 @@ By following these steps, you and your team can efficiently set up and download 
   - `nltk` for text preprocessing.
   - `scikit-learn` for feature extraction and model training.
   - `matplotlib` for visualizations.
+  - `pip install swifter` speed up 
+    `
 
