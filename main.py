@@ -247,3 +247,75 @@ imdb_model = train_and_evaluate_model(X_train_imdb, X_test_imdb, y_train_imdb, y
 # Train and Evaluate on Amazon Data
 print("Processing Amazon data...")
 amazon_model = train_and_evaluate_model(X_train_amazon, X_test_amazon, y_train_amazon, y_test_amazon, "Amazon")
+
+from sklearn.naive_bayes import MultinomialNB
+
+# Train and Evaluate a Naive Bayes Model
+def train_and_evaluate_naive_bayes(X_train, X_test, y_train, y_test, dataset_name):
+    print(f"Training Naive Bayes model for {dataset_name}...")
+    model = MultinomialNB()
+    model.fit(X_train, y_train)
+
+    print("Evaluating model...")
+    y_pred = model.predict(X_test)
+
+    # Model Performance Metrics
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"{dataset_name} Naive Bayes Accuracy: {accuracy:.4f}")
+
+    print(f"Classification Report for {dataset_name}:\n", classification_report(y_test, y_pred))
+    print(f"Confusion Matrix for {dataset_name}:\n", confusion_matrix(y_test, y_pred))
+
+    return model
+
+# Train and Evaluate on Steam Data
+print("Processing Steam data with Naive Bayes...")
+steam_nb_model = train_and_evaluate_naive_bayes(X_train_steam, X_test_steam, y_train_steam, y_test_steam, "Steam")
+
+# Train and Evaluate on Yelp Data
+print("Processing Yelp data with Naive Bayes...")
+yelp_nb_model = train_and_evaluate_naive_bayes(X_train_yelp, X_test_yelp, y_train_yelp, y_test_yelp, "Yelp")
+
+# Train and Evaluate on IMDb Data
+print("Processing IMDb data with Naive Bayes...")
+imdb_nb_model = train_and_evaluate_naive_bayes(X_train_imdb, X_test_imdb, y_train_imdb, y_test_imdb, "IMDb")
+
+# Train and Evaluate on Amazon Data
+print("Processing Amazon data with Naive Bayes...")
+amazon_nb_model = train_and_evaluate_naive_bayes(X_train_amazon, X_test_amazon, y_train_amazon, y_test_amazon, "Amazon")
+
+from sklearn.svm import LinearSVC
+
+# Train and Evaluate an SVM Model
+def train_and_evaluate_svm(X_train, X_test, y_train, y_test, dataset_name):
+    print(f"Training SVM model for {dataset_name}...")
+    model = LinearSVC(random_state=42, max_iter=1000)
+    model.fit(X_train, y_train)
+
+    print("Evaluating model...")
+    y_pred = model.predict(X_test)
+
+    # Model Performance Metrics
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"{dataset_name} SVM Accuracy: {accuracy:.4f}")
+
+    print(f"Classification Report for {dataset_name}:\n", classification_report(y_test, y_pred))
+    print(f"Confusion Matrix for {dataset_name}:\n", confusion_matrix(y_test, y_pred))
+
+    return model
+
+# Train and Evaluate on Steam Data
+print("Processing Steam data with SVM...")
+steam_svm_model = train_and_evaluate_svm(X_train_steam, X_test_steam, y_train_steam, y_test_steam, "Steam")
+
+# Train and Evaluate on Yelp Data
+print("Processing Yelp data with SVM...")
+yelp_svm_model = train_and_evaluate_svm(X_train_yelp, X_test_yelp, y_train_yelp, y_test_yelp, "Yelp")
+
+# Train and Evaluate on IMDb Data
+print("Processing IMDb data with SVM...")
+imdb_svm_model = train_and_evaluate_svm(X_train_imdb, X_test_imdb, y_train_imdb, y_test_imdb, "IMDb")
+
+# Train and Evaluate on Amazon Data
+print("Processing Amazon data with SVM...")
+amazon_svm_model = train_and_evaluate_svm(X_train_amazon, X_test_amazon, y_train_amazon, y_test_amazon, "Amazon")
