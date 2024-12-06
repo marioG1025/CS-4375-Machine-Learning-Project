@@ -87,7 +87,7 @@ yelp_data.to_csv("Datasets/tokenized_yelp.csv", index=False)
 imdb_data.to_csv("Datasets/tokenized_imdb.csv", index=False)
 amazon_data.to_csv("Datasets/tokenized_amazon.csv", index=False)
 print("All tokenized data saved!")
-'''
+
 #####################
 ####################
 ##TF-ID##
@@ -145,7 +145,7 @@ joblib.dump(imdb_vectorizer, "Datasets/imdb_vectorizer.pkl")
 joblib.dump(amazon_tfidf, "Datasets/amazon_tfidf.pkl")
 joblib.dump(amazon_vectorizer, "Datasets/amazon_vectorizer.pkl")
 print("TF-IDF data saved!")
-
+'''
 #####################
 ####################
 ##DATA SPLIT##
@@ -319,3 +319,63 @@ imdb_svm_model = train_and_evaluate_svm(X_train_imdb, X_test_imdb, y_train_imdb,
 # Train and Evaluate on Amazon Data
 print("Processing Amazon data with SVM...")
 amazon_svm_model = train_and_evaluate_svm(X_train_amazon, X_test_amazon, y_train_amazon, y_test_amazon, "Amazon")
+
+
+import pandas as pd
+from sklearn.metrics import accuracy_score, classification_report
+
+# Function to evaluate and store metrics
+def evaluate_model(model, X_test, y_test, dataset_name, model_name):
+    print(f"Evaluating {model_name} on {dataset_name} data...")
+    y_pred = model.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    report = classification_report(y_test, y_pred, output_dict=True)  # Get as dictionary
+
+    return {
+        "Dataset": dataset_name,
+        "Model": model_name,
+        "Accuracy": accuracy,
+        "Precision (0)": report['0']['precision'],
+        "Recall (0)": report['0']['recall'],
+        "F1-Score (0)": report['0']['f1-score'],
+        "Precision (1)": report['1']['precision'],
+        "Recall (1)": report['1']['recall'],
+        "F1-Score (1)": report['1']['f1-score']
+    }
+
+# Collect results for all models and datasets
+results = []
+
+# Evaluate Steam Models
+results.append(evaluate_model(steam_model, X_test_steam, y_test_steam, "Steam", "Logistic Regression"))
+results.append(evaluate_model(steam_nb_model, X_test_steam, y_test_steam, "Steam", "Naive Bayes"))
+results.append(evaluate_model(steam_svm_model, X_test_steam, y_test_steam, "Steam", "SVM"))
+
+# Evaluate Yelp Models
+results.append(evaluate_model(yelp_model, X_test_yelp, y_test_yelp, "Yelp", "Logistic Regression"))
+results.append(evaluate_model(yelp_nb_model, X_test_yelp, y_test_yelp, "Yelp", "Naive Bayes"))
+results.append(evaluate_model(yelp_svm_model, X_test_yelp, y_test_yelp, "Yelp", "SVM"))
+
+# Evaluate IMDb Models
+results.append(evaluate_model(imdb_model, X_test_imdb, y_test_imdb, "IMDb", "Logistic Regression"))
+results.append(evaluate_model(imdb_nb_model, X_test_imdb, y_test_imdb, "IMDb", "Naive Bayes"))
+results.append(evaluate_model(imdb_svm_model, X_test_imdb, y_test_imdb, "IMDb", "SVM"))
+
+# Evaluate Amazon Models
+results.append(evaluate_model(amazon_model, X_test_amazon, y_test_amazon, "Amazon", "Logistic Regression"))
+results.append(evaluate_model(amazon_nb_model, X_test_amazon, y_test_amazon, "Amazon", "Naive Bayes"))
+results.append(evaluate_model(amazon_svm_model, X_test_amazon, y_test_amazon, "Amazon", "SVM"))
+
+# Create a summary table
+results_df = pd.DataFrame(results)
+print("\nModel Performance Summary:")
+print(results_df)
+
+# Save results to CSV for future reference
+results_df.to_csv("Model_Performance_Summary.csv", index=False)
+
+#The F1 score is a performance metric that combines precision and recall into a single value.
+# $It is particularly useful when you want a balance between the two
+#1 Score ranges from 0 to 1:
+#1: Perfect balance between precision and recall.
+#0: No true positives at all.
